@@ -10,7 +10,8 @@ app = FastAPI()
     
 #routes
 
-@app.get("/Hi")
+#routes to save data 
+@app.get("/hi")
 def get():
     return {"message": "hello you!"}
 

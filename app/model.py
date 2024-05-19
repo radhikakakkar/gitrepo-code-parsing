@@ -11,19 +11,21 @@ class Repositories(BaseModel):
     url: str
     # last_updated: str
 
-class File(BaseModel):
+class Files(BaseModel):
     name: str
     repo_id: str
     path: str
 
 class FunctionMetadata(BaseModel):
     name: str
-    class_name: str
     file_id: str
     code: str
     
-
-
+class Classes:
+    name: str
+    file_id: str
+    
+    
 
 
 

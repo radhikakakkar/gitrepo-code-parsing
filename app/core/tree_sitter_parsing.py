@@ -44,6 +44,14 @@ def single_file_function_data_maker(name_captures, code_captures):
         single_file_function_data.append({"name": function_name, "code": function_code})
     return single_file_function_data
 
+
+def single_file_class_data_maker(class_captures):
+    class_names = []
+    for class_capture, _ in class_captures:
+        class_name = text(class_capture)
+        class_names.append({"name": class_name})
+    return class_names
+
 def parse_files_for_function_data(file_path: str):
    
     with open(file_path, 'r') as file:
@@ -57,22 +65,33 @@ def parse_files_for_function_data(file_path: str):
         (function_definition
         body: (block) @function.body)
     """)
-    # class_name_query = PY_LANGUAGE.query("""
-    # (class_declaration
-    #     name: (identifier) @class.name)
-    # """)
-    
     name_captures = function_name_query.captures(root)
     code_captures = function_code_query.captures(root)
-    # class_captures = class_name_query.captures(root)
-
-    # print_captures(code_captures)
-
+    
     single_file_function_data = single_file_function_data_maker(name_captures, code_captures)
     # print(single_file_function_data)
+
     return single_file_function_data
 
-# parse_files_for_function_data('data_handling.py')
+def parse_files_for_class_data(file_path):
+
+    with open(file_path, 'r') as file:
+        source_code = file.read()
+
+    tree = parser.parse(source_code.encode('utf-8'))
+    root = tree.root_node
+
+    class_name_query = PY_LANGUAGE.query("""
+    (class_definition
+        name: (identifier) @class.name)
+    """)
+    class_captures = class_name_query.captures(root)
+    single_file_class_data = single_file_class_data_maker(class_captures)
+    print(single_file_class_data)   
+
+    return single_file_class_data
+
+# parse_files_for_class_data('../model.py')
 
 
 
