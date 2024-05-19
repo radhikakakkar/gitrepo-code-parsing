@@ -9,6 +9,7 @@ from bson import ObjectId
 class Repositories(BaseModel):
     name: str
     url: str
+    data_bool: bool
     # last_updated: str
 
 class Files(BaseModel):
@@ -24,7 +25,7 @@ class FunctionMetadata(BaseModel):
 class Classes:
     name: str
     file_id: str
-    
+
     
 
 

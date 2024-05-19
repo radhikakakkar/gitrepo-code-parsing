@@ -16,6 +16,7 @@ def insert_repo(repo_data):
     #get the repo_name from repo link and save it in the db as well 
     repo_name = get_repo_name(repo_data["url"])
     repo_data["name"] = repo_name
+    repo_data["data_bool"] = False
     print(repo_data)
     result = repositories_data.insert_one(repo_data)
 
@@ -123,6 +124,9 @@ def extract_meta_data(repo_name):
     shutil.rmtree(repo_dir)
 
     if file_names_result["status"] == "done" and functions_data_result["status"] == "done" and class_data_result["status"]== "done":
+        #data parsed bool in repositories doc should be True 
+        # repo_object_id["data_bool"] = True
+        # done the above in routes
         return {"status":"done","message": "Data saved in DB"}
     else:
         return {"status": "error", "message": "error saving data"}

@@ -2,7 +2,8 @@ from fastapi import FastAPI, Path, Request, HTTPException, Header, Depends
 from passlib.context import CryptContext
 import uuid
 from firebase_admin import auth
-from core.data_handling import get_repo_name, insert_repo, get_file_names, extract_meta_data
+from core.data_saving import get_repo_name, insert_repo, get_file_names, extract_meta_data
+from core.data_fetching import deliver_file_names, deliver_function_names, deliver_function_code, deliver_class_names
 from db import db, repositories_data, files_data, functions_data
 
 
@@ -31,6 +32,7 @@ def post(repo_name: str): # will take take the variable from the URL param or tr
     elif check_repo_in_db:
         save_data_in_db = extract_meta_data(repo_name)
         if save_data_in_db["status"] == "done":
+            check_repo_in_db["data_bool"] = True
             return {"status": "done", "message": "All neccessary data extracted and temp files deleted!"}
         else: 
             return {"status": "error", "message": save_data_in_db["message"]}
@@ -40,11 +42,44 @@ def post(repo_name: str): # will take take the variable from the URL param or tr
 
 # route to fetch function names in the current file 
 
+@app.get("/get-file-names/{repo_name}")
+def get(repo_name: str):
+    file_names_result = deliver_file_names(repo_name)
+
+    if file_names_result["status"] == "success":
+        file_names_data = file_names_result["data"]
+        return {"status":"success", "message": file_names_result["message"]}
+    else:
+        return {"status": "error", "message": {file_names_result["message"]}}
 
 
+@app.get("/get-function-names/{file_name}")
+def get(file_name: str):
+    function_names_result = deliver_function_names(file_name)
+    # print(function_names_result)
+    # print(function_names_result["data"])
+    # print(type(function_names_result["data"]))
 
+    if function_names_result["status"] == "success":
+        return {"status": "success", "message": function_names_result["message"]}
+    else: 
+        return {"status": "error", "messages": function_names_result["message"]}
+    
+@app.get("/get-function-code/{function_name}")
+def get(function_name: str):
+    function_code_result = deliver_function_code(function_name)
+    if function_code_result["status"] == "success":
+        return {"status": "success", "message": function_code_result["message"]} 
+    else: 
+        return {"status": "error", "message": function_code_result["message"]}
 
-
+@app.get("/get-class-name/{file_name}")
+def get(file_name: str):
+    class_name_result = deliver_class_names(file_name)
+    if class_name_result["status"] == "success":
+        return {"status": "success", "message": class_name_result["message"]} 
+    else: 
+        return {"status": "error", "message": class_name_result["message"]}
 
 
 
