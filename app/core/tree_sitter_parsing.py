@@ -1,9 +1,17 @@
 from tree_sitter import Parser, Language
 import os
 
-
-# PY_LANGUAGE = Language('../build/my-languages.so', 'python')
+# language_so_path2 = os.getenv('MY_LANGUAGES_SO_PATH')
 language_so_path = "/Users/radhikakakkar/My Projects/momentum/app/build/my-languages.so"
+
+# language_so_path2 = "../build/my-languages.so"
+# if not language_so_path:
+#     script_dir = os.path.dirname(os.path.abspath(__file__))
+#     language_so_path = os.path.join(script_dir, "../build/my-languages.so")
+# if not os.path.isfile(language_so_path):
+#     raise FileNotFoundError(f"The file {language_so_path} does not exist")
+
+
 PY_LANGUAGE = Language(language_so_path, "python")
 parser = Parser()
 parser.set_language(PY_LANGUAGE)

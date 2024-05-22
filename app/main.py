@@ -25,6 +25,7 @@ from db import db, repositories_data, files_data, functions_data, users_data
 #firebase 
 if not firebase_admin._apps:
     # app/config/momentum-fdc60-firebase-adminsdk-qx0o6-5e1da83d47.json
+    
     cred = credentials.Certificate("/Users/radhikakakkar/My Projects/momentum/app/config/momentum-fdc60-firebase-adminsdk-qx0o6-5e1da83d47.json")
     firebase_admin.initialize_app(cred)
 
