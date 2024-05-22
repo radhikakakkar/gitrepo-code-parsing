@@ -1,6 +1,6 @@
 venv/
 ENV/
-env/
+# env/
 venv.bak/
 __pycache__/
 .DS_Store
