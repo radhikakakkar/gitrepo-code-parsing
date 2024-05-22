@@ -2,8 +2,7 @@ from fastapi import HTTPException, Header, Request
 import firebase_admin
 from firebase_admin import auth
 from firebase_admin import credentials
-from firebase_admin import app_check
-
+# from firebase_admin import app_check
 from db import users_data
 import jwt
 
@@ -12,8 +11,11 @@ def verify_token(request: Request, Authorization: str = Header(...)):
         raise HTTPException(status_code=401, detail="Authorization header is missing")
     try:
         token = Authorization.split(" ")[1]
-        app_check_claims = app_check.verify_token(token)
-        
+        user = auth.verify_id_token(token)
+        if user["uid"]: 
+            return True
+        else: 
+            return False    
     except Exception as e:
         raise HTTPException(status_code=401, detail=f"Token verification failed: {str(e)}") 
    

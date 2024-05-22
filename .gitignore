@@ -2,11 +2,8 @@ venv/
 ENV/
 env/
 venv.bak/
-
 __pycache__/
-
 .DS_Store
-
 temp.py
 
 
