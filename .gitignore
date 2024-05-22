@@ -5,7 +5,7 @@ venv.bak/
 __pycache__/
 .DS_Store
 temp.py
-.env
-momentum-fdc60-firebase-adminsdk-qx0o6-5e1da83d47.json
+# .env
+# momentum-fdc60-firebase-adminsdk-qx0o6-5e1da83d47.json
 
 
